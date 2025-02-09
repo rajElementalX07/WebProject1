@@ -42,7 +42,7 @@ function PdfUploaderPage() {
   };
   const showPdf = (pdf) => {
     // window.open(`http://localhost:5000/files/${pdf}`, "_blank", "noreferrer");
-    setPdfFile(`http://localhost:7000/files/${pdf}`)
+    setPdfFile(`https://webproject1-u6hr.onrender.com/files/${pdf}`)
   };
   return (
     <div className="App">
