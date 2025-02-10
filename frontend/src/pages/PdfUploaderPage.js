@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { pdfjs } from "react-pdf";
 import PdfComp from "../components/PdfComp";
 import api from "../utils/axios";
+import { useLocation } from "react-router-dom";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 function PdfUploaderPage() {
+  const location = useLocation();
   const [title, setTitle] = useState("");
   const [file, setFile] = useState("");
   const [allImage, setAllImage] = useState(null);
@@ -20,6 +22,14 @@ function PdfUploaderPage() {
   const handleChange = (event) => {
     setSelectedYear(event.target.value);
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const titleParam = params.get("title");
+    if (titleParam) {
+      setTitle(titleParam);
+    }
+  }, [location.search]);
 
   useEffect(() => {
     getPdf();
@@ -65,7 +75,8 @@ function PdfUploaderPage() {
           className="form-control"
           placeholder="Title"
           required
-          onChange={(e) => setTitle(e.target.value)}
+          value={title}
+          // onChange={(e) => setTitle(e.target.value)}
         />
         <br />
         <label htmlFor="year">Select Year: </label>

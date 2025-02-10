@@ -7,6 +7,8 @@ import error from './middlewares/error.js';
 import ErrorHandler from './utils/errorHandler.js';
 import authRoutes from './routes/authRoutes.js';
 import PdfDetails from './models/PdfDetails.js';
+import fs from 'fs';
+import path from 'path';
 dotenv.config();
 const app = express();
 const storage = multer.diskStorage({
@@ -15,7 +17,7 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
       const uniqueSuffix = Date.now() 
-      cb(null, uniqueSuffix + file.originalname)
+      cb(null, file.originalname)
     }
   })
 const upload = multer({ storage: storage })
@@ -36,8 +38,27 @@ app.post("/upload-files", upload.single('file'),async(req,res) => {
     console.log("backend : "+year);
     
     try {
-        await PdfDetails.create({title:title,pdf:fileName,year: year});
-        res.send({status:"ok"});
+        // await PdfDetails.create({title:title,pdf:fileName,year: year});
+        // res.send({status:"ok"});
+
+        const existingFile = await PdfDetails.findOne({ title, year });
+
+        if (existingFile) {
+            const oldFilePath = path.join(__dirname, "files", existingFile.pdf);
+            if (fs.existsSync(oldFilePath)) {
+                fs.unlinkSync(oldFilePath); // Remove old file
+            }
+
+            
+            existingFile.pdf = fileName;
+            existingFile.year = year;
+            await existingFile.save();
+        } else {
+            // If no existing file, create a new entry
+            await PdfDetails.create({ title, pdf: fileName, year });
+        }
+
+        res.send({ status: "ok" });
     } catch (error) {
         res.json({status:error});
     }

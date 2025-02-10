@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import "./CollegeData.css";
 
 const CollegeData = () => {
-    const truncateText = (text, maxLength) => {
-        return text.length > maxLength ? text.substring(0, maxLength) + "........" : text;
-      };
+  const [expandedRows, setExpandedRows] = useState({});
+
+  const toggleExpand = (id) => {
+    setExpandedRows((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
+  const truncateText = (text, maxLength, isExpanded) => {
+    if (text.length <= maxLength) return text;
+    return isExpanded ? text : text.substring(0, maxLength) + "...";
+  };
   const InstitutionData = [
     {
       id: 1,
@@ -99,6 +109,47 @@ const CollegeData = () => {
       data2: " Faculty were encourage to published",
     },
   ];
+
+  const data = {
+    Programme: {
+      1.1: {
+        title:
+          "Number of courses offered by the institution across all programs during the year",
+        value: 406,
+      },
+    },
+    Student: {
+      2.1: { title: "Number of students during the year", value: 4300 },
+      2.2: {
+        title:
+          "Number of seats earmarked for reserved category as per GOI/State Govt. rule during the year",
+        value: 388,
+      },
+      2.3: {
+        title: "Number of outgoing/final year students during the year",
+        value: 1179,
+      },
+    },
+    Academic: {
+      3.1: {
+        title: "Number of full-time teachers during the year",
+        value: 203,
+      },
+      3.2: { title: "Number of sanctioned posts during the year", value: 221 },
+    },
+    Institution: {
+      4.1: { title: "Total number of Classrooms and Seminar halls", value: 56 },
+      4.2: {
+        title:
+          "Total expenditure excluding salary during the year (INR in lakhs)",
+        value: "32.21",
+      },
+      4.3: {
+        title: "Total number of computers on campus for academic purposes",
+        value: 889,
+      },
+    },
+  };
   return (
     <>
       <div className="table-container">
@@ -166,7 +217,7 @@ const CollegeData = () => {
           </tr>
           <tr>
             <td>
-              Website address (Web link of the AQAR) (Previous Academic Year)
+              3.Website address (Web link of the AQAR) (Previous Academic Year)
             </td>
             <td>
               <a href=" http://skncoe.sinhgad.edu">
@@ -176,8 +227,8 @@ const CollegeData = () => {
             </td>
           </tr>
           <tr>
-            <td>Whether Academic Calendar prepared during the year?</td>
-            <td>Yes</td>
+            <th>4.Whether Academic Calendar prepared during the year?</th>
+            <th>Yes</th>
           </tr>
           <tr>
             <td>
@@ -203,7 +254,11 @@ const CollegeData = () => {
           <tr>
             <td>Upload latest notification of formation of IQAC</td>
             <td>
-              <a href="/auth/upload">Upload File</a>
+              <a
+                href={`/auth/upload?title=Upload latest notification of formation of IQAC`}
+              >
+                Upload File
+              </a>
             </td>
           </tr>
           <tr>
@@ -263,11 +318,36 @@ const CollegeData = () => {
             </tr>
           ))}
           <tr>
+            <th> 13.Whether the AQAR was placed before
+            statutory body?</th>
+            <th>Yes</th>
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td>Date of meetings</td>
+          </tr>
+          <tr>
+            <td>Management</td>
+            <td>04/03/2024</td>
+          </tr>
+          <tr>
+            <th colSpan={2}>14.Whether institutional data submitted to AISHE</th>
+          </tr>
+          <tr>
+            <td>Year</td>
+            <td>Date of Submission</td>
+          </tr>
+          <tr>
+            <td>2024</td>
+            <td>31/01/2025</td>
+          </tr>
+          <tr>
             <th colSpan={2}>15.Multidisciplinary / interdisciplinary</th>
           </tr>
           <tr>
             <td colSpan={2}>
-              {truncateText(`As per Vision of National Education Policy, institute effectively
+              {truncateText(
+                `As per Vision of National Education Policy, institute effectively
               provides various platforms for high quality education which will
               help to develop human resources in Bharat as global citizens. As
               institute is affiliated to SPPU, there is limited scope for
@@ -300,8 +380,16 @@ const CollegeData = () => {
               institute is keen for further rise the depth of multidisciplinary
               approach. In short, institute has few mechanisms addressing
               multidisciplinary education and is proactively working towards
-              implementation of the suggestions given in the NEP.`,100)}
-              
+              implementation of the suggestions given in the NEP.`,
+                100,
+                expandedRows[49]
+              )}
+              <button
+                onClick={() => toggleExpand(49)}
+                className="read-more-btn"
+              >
+                {expandedRows[49] ? " Read Less" : " Read More"}
+              </button>
             </td>
           </tr>
           <tr>
@@ -320,7 +408,8 @@ const CollegeData = () => {
           </tr>
           <tr>
             <td colSpan={2}>
-              {truncateText(`Institute is very keen about skill development of students as wel
+              {truncateText(
+                `Institute is very keen about skill development of students as wel
               l as faculty. Every year, as a part of STP, Value Added Programs
               are conducted for final year students. VAP consists of various
               modules related to latest technologies. Students opt VAP module as
@@ -334,7 +423,16 @@ const CollegeData = () => {
               higher education in India as well as abroad For faculty, various
               FDPs and workshops are conducted in the institute and faculty are
               encouraged to attend skill development workshops in the reputed
-              institutes.`,100)}
+              institutes.`,
+                100,
+                expandedRows[53]
+              )}
+              <button
+                onClick={() => toggleExpand(53)}
+                className="read-more-btn"
+              >
+                {expandedRows[53] ? " Read Less" : " Read More"}
+              </button>
             </td>
           </tr>
           <tr>
@@ -345,7 +443,8 @@ const CollegeData = () => {
           </tr>
           <tr>
             <td colSpan={2}>
-              {truncateText(`Being a professional institute , courses delivery is always in
+              {truncateText(
+                `Being a professional institute , courses delivery is always in
               English language whereas to grasp the contents easily, teachers
               many times repeat concepts in national language Hindi and local
               language Marathi. Also during interaction with students, local
@@ -357,7 +456,16 @@ const CollegeData = () => {
               motivates students and faculty to celebrate Indian festivals and
               participation in Firodiya Karandak which consists of drama
               competition and other elements like, sculpture, pottery, painting,
-              orchestra, puppet dancing.`,100)}
+              orchestra, puppet dancing.`,
+                100,
+                expandedRows[55]
+              )}
+              <button
+                onClick={() => toggleExpand(55)}
+                className="read-more-btn"
+              >
+                {expandedRows[55] ? " Read Less" : " Read More"}
+              </button>
             </td>
           </tr>
           <tr>
@@ -368,7 +476,8 @@ const CollegeData = () => {
           </tr>
           <tr>
             <td colSpan={2}>
-              {truncateText(`All these programmes in the institute are offered as outcomes
+              {truncateText(
+                `All these programmes in the institute are offered as outcomes
               based education (OBE) which are designed by affiliating university
               focusing on skills and knowledge requirements. Institute has
               implemented outcome-Based Education with clearly stated Vision,
@@ -383,7 +492,16 @@ const CollegeData = () => {
               and ethics- morals, as well as entrepreneurship development,
               leadership skills and teamwork. This motivates students to
               contribute proactively and effectively for development of
-              individual and society by all means.`,100)}
+              individual and society by all means.`,
+                100,
+                expandedRows[57]
+              )}
+              <button
+                onClick={() => toggleExpand(57)}
+                className="read-more-btn"
+              >
+                {expandedRows[57] ? " Read Less" : " Read More"}
+              </button>
             </td>
           </tr>
           <tr>
@@ -391,7 +509,8 @@ const CollegeData = () => {
           </tr>
           <tr>
             <td colSpan={2}>
-              {truncateText(`During Covid -19 pandemic, institute started online education
+              {truncateText(
+                `During Covid -19 pandemic, institute started online education
               fully and effectively using digital platforms for conducting
               classes, workshops, seminars, guest lectures, conferences,
               meetings and examination. In spite of certain challenges like lack
@@ -407,14 +526,23 @@ const CollegeData = () => {
               online resources by educators and students will not be a
               constraint anymore. Faculties are encouraged to offer MOOC courses
               to students at institute which promotes the blended learning
-              system of learning .`,100)}
+              system of learning .`,
+                100,
+                expandedRows[59]
+              )}
+              <button
+                onClick={() => toggleExpand(59)}
+                className="read-more-btn"
+              >
+                {expandedRows[59] ? " Read Less" : " Read More"}
+              </button>
             </td>
           </tr>
         </table>
       </div>
       <div className="table-container">
         <table className="custom-table">
-          <caption className="table-caption">Accreditation Details</caption>
+          <caption className="table-caption">5.Accreditation Details</caption>
           <thead>
             <tr>
               <th>Cycle</th>
@@ -444,6 +572,65 @@ const CollegeData = () => {
             </tr>
           </tbody>
         </table>
+      </div>
+      <div className="table-container">
+        <table className="custom-table">
+          <caption className="table-caption">
+            7.Provide the list of funds by Central / State Government
+            UGC/CSIR/DBT/ICMR/TEQIP/World Bank/CPE of UGC etc.,
+          </caption>
+          <thead>
+            <tr>
+              <th>Institutional/Department /Faculty</th>
+              <th>Scheme</th>
+              <th> Funding Agency</th>
+              <th>Year of award with duration</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>NIL</td>
+              <td>NIL</td>
+              <td>NIL</td>
+              <td>NIL</td>
+              <td>NIL</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div className="mx-auto p-6">
+        {Object.entries(data).map(([section, entries]) => (
+          <div key={section} className="table-container">
+            <table className="custom-table">
+              <caption className="table-caption">{section}</caption>
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="border px-4 py-2">ID</th>
+                  <th className="border px-4 py-2">Description</th>
+                  <th className="border px-4 py-2">Value</th>
+                  {section !== "Institution" && <th className="border px-4 py-2">Actions</th>}
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(entries).map(([key, { title, value }]) => (
+                  <tr key={key}>
+                    <td className="border px-4 py-2">{key}</td>
+                    <td className="border px-4 py-2">{title}</td>
+                    <td className="border px-4 py-2">{value}</td>
+                    {section !== "Institution" && (
+                <td className="border px-4 py-2">
+                  <a href={`/auth/upload?title=${title}`} className="text-blue-500 underline">
+                    Upload File
+                  </a>
+                </td>
+              )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))}
       </div>
     </>
   );
