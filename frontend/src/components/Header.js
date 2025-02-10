@@ -39,7 +39,7 @@ function Header() {
           style={{ cursor: "pointer" }}
           onClick={() => navigate("/")}
         >
-          NARC
+          NAAC
         </Navbar.Brand>
         <Nav>
           <Nav.Link onClick={() => navigate("/")} className="fw-bold fs-5">

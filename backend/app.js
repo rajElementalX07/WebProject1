@@ -32,9 +32,11 @@ app.post("/upload-files", upload.single('file'),async(req,res) => {
     console.log(req.file);
     const title  = req.body.title;
     const fileName = req.file.filename;
-
+    const year = Number(req.body.year);
+    console.log("backend : "+year);
+    
     try {
-        await PdfDetails.create({title:title,pdf:fileName});
+        await PdfDetails.create({title:title,pdf:fileName,year: year});
         res.send({status:"ok"});
     } catch (error) {
         res.json({status:error});

@@ -11,6 +11,16 @@ function PdfUploaderPage() {
   const [allImage, setAllImage] = useState(null);
   const [pdfFile, setPdfFile] = useState(null);
 
+  const currentYear = new Date().getFullYear();
+  const startYear = 2000; // You can adjust this to your requirement
+  const years = Array.from({ length: currentYear - startYear + 1 }, (_, i) => startYear + i);
+
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+
+  const handleChange = (event) => {
+    setSelectedYear(event.target.value);
+  };
+
   useEffect(() => {
     getPdf();
   }, []);
@@ -25,8 +35,9 @@ function PdfUploaderPage() {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("file", file);
-    console.log(title, file);
-
+    formData.append("year", selectedYear.toString());
+    console.log(title,selectedYear, file);
+    console.log(formData);
     const result = await api.post(
       "/upload-files",
       formData,
@@ -56,6 +67,16 @@ function PdfUploaderPage() {
           required
           onChange={(e) => setTitle(e.target.value)}
         />
+        <br />
+        <label htmlFor="year">Select Year: </label>
+      <select id="year" value={selectedYear} onChange={handleChange}>
+        {years.map((year) => (
+          <option key={year} value={year}>
+            {year}
+          </option>
+        ))}
+      </select>
+        <br />
         <br />
         <input
           type="file"
