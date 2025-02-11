@@ -34,10 +34,20 @@ function PdfUploaderPage() {
   useEffect(() => {
     getPdf();
   }, []);
+  // const getPdf = async () => {
+  //   const result = await api.get("/get-files");
+  //   console.log(result.data.data);
+  //   setAllImage(result.data.data);
+  // };
   const getPdf = async () => {
-    const result = await api.get("/get-files");
-    console.log(result.data.data);
-    setAllImage(result.data.data);
+    try {
+      const result = await api.get(`/get-file?title=${title}`);
+      console.log(result.data.data);
+      setAllImage(result.data.data);
+    } catch (error) {
+      console.error("Error fetching PDF:", error.response?.data?.message || error.message);
+      setAllImage(null); 
+    }
   };
 
   const submitImage = async (e) => {
@@ -105,7 +115,7 @@ function PdfUploaderPage() {
         <h4>Uploaded PDF:</h4>
         <div className="output-div">
           {allImage == null
-            ? ""
+            ? (<p>No PDF Uploaded</p>)
             : allImage.map((data) => {
                 return (
                   <div className="inner-div">

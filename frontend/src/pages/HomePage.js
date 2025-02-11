@@ -7,7 +7,7 @@ function HomePage() {
     <Container className='custom-section d-flex justify-content-center'>
         <Row >
             <Col  data-aos="zoom-in" data-aos-duration='500' data-aos-delay="300" >
-                    <h1 className='display-2 fw-bold ' >Welcome to NAAC Website</h1>
+                    <h1 className='display-2 fw-bold ' >Welcome to NACC Website</h1>
             </Col>
         </Row>
     </Container>

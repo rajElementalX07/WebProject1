@@ -74,6 +74,27 @@ app.get("/get-files",async(req,res) => {
     }
 })
 
+app.get("/get-file",async(req,res) => {
+
+    try {
+        const {title} = req.query;
+
+        if(!title){
+            return res.status(400).json({ status: "error", message: "Title is required" });
+        }
+
+        const fileData = await PdfDetails.findOne({ title });
+
+        if(!fileData){
+            return res.status(404).json({ status: "error", message: "File not found" });
+        }
+
+        res.json({ status: "ok", data: fileData });
+    } catch (error) {
+        res.status(500).json({ status: "error", message: error.message });
+    }
+})
+
 app.get('/',(req,res)=>{
     res.json({message:'Welcome to Farm server'});
 })
