@@ -3,10 +3,12 @@ import { pdfjs } from "react-pdf";
 import PdfComp from "../components/PdfComp";
 import api from "../utils/axios";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 function PdfUploaderPage() {
+  const {user} = useSelector((state) => state.user);
   const location = useLocation();
   const [title, setTitle] = useState("");
   const [file, setFile] = useState("");
@@ -56,6 +58,10 @@ function PdfUploaderPage() {
     formData.append("title", title);
     formData.append("file", file);
     formData.append("year", selectedYear.toString());
+
+    if (user && user.department) {
+      formData.append("department", user.department);
+    }
     console.log(title,selectedYear, file);
     console.log(formData);
     const result = await api.post(

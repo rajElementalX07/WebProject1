@@ -39,6 +39,7 @@ app.post("/upload-files", upload.single('file'),async(req,res) => {
     const title  = req.body.title;
     const fileName = req.file.filename;
     const year = Number(req.body.year);
+    const department = req.body.department;
     console.log("backend : "+year);
     
     try {
@@ -56,10 +57,11 @@ app.post("/upload-files", upload.single('file'),async(req,res) => {
             
             existingFile.pdf = fileName;
             existingFile.year = year;
+            existingFile.department = department;
             await existingFile.save();
         } else {
             // If no existing file, create a new entry
-            await PdfDetails.create({ title, pdf: fileName, year });
+            await PdfDetails.create({ title, pdf: fileName, year,department });
         }
 
         res.send({ status: "ok" });
