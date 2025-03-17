@@ -102,27 +102,30 @@ app.get("/get-file",async(req,res) => {
 
 app.get("/api/download-file", async (req, res) => {
     try {
-        const { title } = req.query;
-        if (!title) {
-            return res.status(400).json({ status: "error", message: "Title is required" });
-        }
-        const fileData = await PdfDetails.findOne({ title });
-        if (!fileData) {
-            return res.status(404).json({ status: "error", message: "File not found" });
-        }
-        const filePath = path.join(__dirname, "files", fileData.pdf);
-        if (!fs.existsSync(filePath)) {
-            return res.status(404).json({ status: "error", message: "File not found on disk" });
-        }
-        res.setHeader("Content-Type", "application/pdf");
-        res.setHeader("Content-Disposition", `inline; filename="${fileData.pdf}"`);
-        const readStream = fs.createReadStream(filePath);
-        readStream.pipe(res);
+      const { pdf } = req.query;
+      console.log(pdf);
+      if (!pdf) {
+        return res.status(400).json({ status: "error", message: "PDF name is required" });
+      }
+      const fileData = await PdfDetails.findOne({ pdf: pdf });
+      console.log("File data from DB: ", fileData);
+      if (!fileData) {
+        return res.status(404).json({ status: "error", message: "File not found" });
+      }
+      const filePath = path.join(__dirname, "files", fileData.pdf);
+      console.log("File path: ", filePath);
+      if (!fs.existsSync(filePath)) {
+        return res.status(404).json({ status: "error", message: "File not found on disk" });
+      }
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("Content-Disposition", `inline; filename="${fileData.pdf}"`);
+      const readStream = fs.createReadStream(filePath);
+      readStream.pipe(res);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ status: "error", message: error.message });
+      console.error(error);
+      res.status(500).json({ status: "error", message: error.message });
     }
-});
+  });
 
 app.get('/',(req,res)=>{
     res.json({message:'Welcome to Farm server'});
