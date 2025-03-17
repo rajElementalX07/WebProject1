@@ -1,0 +1,99 @@
+/* Overall container with improved spacing and shadow */
+.table-container {
+    margin: 20px auto;
+    max-width: 1000px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Table styling with modern fonts and spacing */
+  .custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Caption with gradient background and enhanced font */
+  .table-caption {
+    background: linear-gradient(45deg, #10acaa, #0a85a0);
+    color: #fff !important;
+    padding: 16px;
+    text-align: left;
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+  
+  /* Table cells styling */
+  .custom-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+    transition: background-color 0.3s;
+  }
+  
+  /* Subsection header with a distinct background */
+  .subsection-header td {
+    background-color: #1174cb;
+    color: #fff;
+    font-weight: bold;
+    padding: 12px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  /* Field labels and values */
+  .field-label {
+    width: 40%;
+    /* min-width: 50px; */
+    color: #555;
+    font-weight: 700;
+  }
+  .field-value {
+    width: 60%;
+    color: #333;
+    font-weight: 600 !important;
+    word-wrap: break-word;       /* older property, but widely supported */
+    overflow-wrap: break-word;   /* modern property */
+    white-space: pre-wrap;
+  }
+  
+  /* Special styling for File Description and Documents rows */
+  .file-description {
+    background-color: #e8f4fa;
+    padding: 7px;
+    border-left: 4px solid #0a5275;
+    font-style: italic;
+    color: #0a5275;
+  }
+  
+  /* Read More button styling */
+  .read-more-btn {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-left: 5px;
+  }
+  
+  /* Link styling */
+  .custom-table a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  .custom-table a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Hover effect for rows */
+  .custom-table tbody tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .head{
+    text-align: center;
+    padding-top: 10px;
+  }

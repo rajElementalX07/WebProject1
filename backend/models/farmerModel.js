@@ -28,6 +28,11 @@ const farmerSchema = new mongoose.Schema({
       userType:{
         type:String,
         default:'farmer'
+      },
+      department: { 
+        type: String, 
+        required: true, 
+        enum: ["FE", "CS", "IT", "Mechanical", "ENTC"] 
       }
 },{
     timestamps:true,

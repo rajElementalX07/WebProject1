@@ -9,6 +9,7 @@ import NotFound from './pages/NotFound';
 import HomePage from './pages/HomePage';
 import PdfUploaderPage from './pages/PdfUploaderPage';
 import CollegeData from './pages/CollegeData';
+import PartBData from './pages/PartBData';
 
 function App() {
   useEffect(()=>{
@@ -27,6 +28,7 @@ function App() {
       <Route path='/auth/farmer-reg' element={<AuthPage/>}  />   
       <Route path='/auth/upload' element={<PdfUploaderPage/>}  />   
       <Route path='/auth/clg-data' element={<CollegeData/>}  />   
+      <Route path='/auth/part-b-data' element={<PartBData/>}  />   
       <Route path='*' element={<NotFound/>}  />   
     </Routes>
     </>
