@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 function PdfUploaderPage() {
-  const {user} = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
   console.log(user);
   const location = useLocation();
   const [title, setTitle] = useState("");
@@ -18,7 +18,10 @@ function PdfUploaderPage() {
 
   const currentYear = new Date().getFullYear();
   const startYear = 2000; // You can adjust this to your requirement
-  const years = Array.from({ length: currentYear - startYear + 1 }, (_, i) => startYear + i);
+  const years = Array.from(
+    { length: currentYear - startYear + 1 },
+    (_, i) => startYear + i
+  );
 
   const [selectedYear, setSelectedYear] = useState(currentYear);
 
@@ -29,14 +32,17 @@ function PdfUploaderPage() {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const titleParam = params.get("title");
+    console.log("title param", titleParam);
     if (titleParam) {
       setTitle(titleParam);
     }
   }, [location.search]);
 
   useEffect(() => {
-    getPdf();
-  }, []);
+    if (title) {
+      getPdf();
+    }
+  }, [title]);
   // const getPdf = async () => {
   //   const result = await api.get("/get-files");
   //   console.log(result.data.data);
@@ -48,8 +54,11 @@ function PdfUploaderPage() {
       console.log(result.data.data);
       setAllImage(result.data.data);
     } catch (error) {
-      console.error("Error fetching PDF:", error.response?.data?.message || error.message);
-      setAllImage(null); 
+      console.error(
+        "Error fetching PDF:",
+        error.response?.data?.message || error.message
+      );
+      setAllImage(null);
     }
   };
 
@@ -61,27 +70,23 @@ function PdfUploaderPage() {
     formData.append("year", selectedYear.toString());
 
     if (user && user.department) {
-      console.log("inside dep")
+      console.log("inside dep");
       formData.append("department", user.department);
     }
-    console.log(title,selectedYear, file);
+    console.log(title, selectedYear, file);
     console.log(formData);
-    const result = await api.post(
-      "/upload-files",
-      formData,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-      }
-    );
+    const result = await api.post("/upload-files", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     console.log(result);
     if (result.data.status == "ok") {
       alert("Uploaded Successfully!!!");
-      getPdf();
+      // getPdf();
     }
   };
   const showPdf = (pdf) => {
     // window.open(`http://localhost:5000/files/${pdf}`, "_blank", "noreferrer");
-    setPdfFile(`https://webproject1-u6hr.onrender.com/files/${pdf}`)
+    setPdfFile(`https://webproject1-u6hr.onrender.com/files/${pdf}`);
   };
   return (
     <div className="App">
@@ -98,13 +103,13 @@ function PdfUploaderPage() {
         />
         <br />
         <label htmlFor="year">Select Year: </label>
-      <select id="year" value={selectedYear} onChange={handleChange}>
-        {years.map((year) => (
-          <option key={year} value={year}>
-            {year}
-          </option>
-        ))}
-      </select>
+        <select id="year" value={selectedYear} onChange={handleChange}>
+          {years.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </select>
         <br />
         <br />
         <input
@@ -122,24 +127,35 @@ function PdfUploaderPage() {
       <div className="uploaded">
         <h4>Uploaded PDF:</h4>
         <div className="output-div">
-          {allImage == null
-            ? (<p>No PDF Uploaded</p>)
-            : allImage.map((data) => {
-                return (
-                  <div className="inner-div">
-                    <h6>Title: {data.title}</h6>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => showPdf(data.pdf)}
-                    >
-                      Show Pdf
-                    </button>
-                  </div>
-                );
-              })}
+          {!allImage ? (
+            <p>No PDF Uploaded</p>
+          ) : Array.isArray(allImage) ? (
+            allImage.map((data) => (
+              <div className="inner-div" key={data._id}>
+                <h6>Title: {data.title}</h6>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => showPdf(data.pdf)}
+                >
+                  Show Pdf
+                </button>
+              </div>
+            ))
+          ) : (
+            // If allImage is a single object
+            <div className="inner-div">
+              <h6>Title: {allImage.title}</h6>
+              <button
+                className="btn btn-primary"
+                onClick={() => showPdf(allImage.pdf)}
+              >
+                Show Pdf
+              </button>
+            </div>
+          )}
         </div>
       </div>
-      <PdfComp pdfFile={pdfFile}/>
+      <PdfComp pdfFile={pdfFile} />
     </div>
   );
 }
