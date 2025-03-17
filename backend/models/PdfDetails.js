@@ -4,7 +4,8 @@ const PdfDetailsSchema = new mongoose.Schema(
   {
     pdf: String,
     title: String,
-    year: Number
+    year: Number,
+    department: { type: String }
   },
   { collection: "PdfDetails" }
 );

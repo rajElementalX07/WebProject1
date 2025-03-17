@@ -9,6 +9,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 
 function PdfUploaderPage() {
   const {user} = useSelector((state) => state.user);
+  console.log(user);
   const location = useLocation();
   const [title, setTitle] = useState("");
   const [file, setFile] = useState("");
@@ -60,6 +61,7 @@ function PdfUploaderPage() {
     formData.append("year", selectedYear.toString());
 
     if (user && user.department) {
+      console.log("inside dep")
       formData.append("department", user.department);
     }
     console.log(title,selectedYear, file);
