@@ -9,8 +9,12 @@ import authRoutes from './routes/authRoutes.js';
 import PdfDetails from './models/PdfDetails.js';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 dotenv.config();
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, './files')
@@ -94,6 +98,31 @@ app.get("/get-file",async(req,res) => {
         res.status(500).json({ status: "error", message: error.message });
     }
 })
+
+
+app.get("/api/download-file", async (req, res) => {
+    try {
+        const { title } = req.query;
+        if (!title) {
+            return res.status(400).json({ status: "error", message: "Title is required" });
+        }
+        const fileData = await PdfDetails.findOne({ title });
+        if (!fileData) {
+            return res.status(404).json({ status: "error", message: "File not found" });
+        }
+        const filePath = path.join(__dirname, "files", fileData.pdf);
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).json({ status: "error", message: "File not found on disk" });
+        }
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader("Content-Disposition", `inline; filename="${fileData.pdf}"`);
+        const readStream = fs.createReadStream(filePath);
+        readStream.pipe(res);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: "error", message: error.message });
+    }
+});
 
 app.get('/',(req,res)=>{
     res.json({message:'Welcome to Farm server'});
