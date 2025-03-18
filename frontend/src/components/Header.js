@@ -45,12 +45,14 @@ function Header() {
           <Nav.Link onClick={() => navigate("/")} className="fw-bold fs-5">
             Home
           </Nav.Link>
+          {userToken && (<>
           <Nav.Link onClick={() => navigate("auth/clg-data")} className="fw-bold fs-5">
             Part A – Detailed Institutional Data
           </Nav.Link>
           <Nav.Link onClick={() => navigate("auth/part-b-data")} className="fw-bold fs-5">
             Part B – Comprehensive Overview
           </Nav.Link>
+          </>)}
           {/* <Nav.Link
             onClick={() => navigate("/pricing")}
             className="fw-bold fs-5"
