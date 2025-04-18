@@ -18,8 +18,8 @@ function AuthCard() {
   const [department, setDepartment] = useState("");
 
   const location = useLocation();
-  const isFarmerLogin = location.pathname.includes("farmer-login");
-  const isFarmerReg = location.pathname.includes("farmer-reg");
+  const isFarmerLogin = location.pathname.includes("user-login");
+  const isFarmerReg = location.pathname.includes("user-reg");
   const { isLoading } = useSelector((state) => state.loading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -117,11 +117,11 @@ function AuthCard() {
 
           {isFarmerLogin ? (
             <p className="text-end">
-              New Member? <Link to="/auth/farmer-reg">Register</Link>
+              New Member? <Link to="/auth/user-reg">Register</Link>
             </p>
           ) : isFarmerReg ? (
             <p className="text-end">
-              Already a Member? <Link to="/auth/farmer-login">Login</Link>
+              Already a Member? <Link to="/auth/user-login">Login</Link>
             </p>
           ) : null}
 

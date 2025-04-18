@@ -71,7 +71,7 @@ function Header() {
         ) : (
           <Button
             variant="dark"
-            onClick={() => navigate("/auth/farmer-login")}
+            onClick={() => navigate("/auth/user-login")}
             className="rounded-pill px-4 fw-bold"
           >
             Login
