@@ -10,6 +10,7 @@ import HomePage from './pages/HomePage';
 import PdfUploaderPage from './pages/PdfUploaderPage';
 import CollegeData from './pages/CollegeData';
 import PartBData from './pages/PartBData';
+import PartBProgress from './pages/PartBProgress';
 
 function App() {
   useEffect(()=>{
@@ -29,6 +30,7 @@ function App() {
       <Route path='/auth/upload' element={<PdfUploaderPage/>}  />   
       <Route path='/auth/clg-data' element={<CollegeData/>}  />   
       <Route path='/auth/part-b-data' element={<PartBData/>}  />   
+      <Route path="/auth/partb-progress" element={<PartBProgress />} />
       <Route path='*' element={<NotFound/>}  />   
     </Routes>
     </>

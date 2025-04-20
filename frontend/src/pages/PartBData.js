@@ -1,36 +1,8 @@
 import React, { lazy, useState } from "react";
 import "./PartBData.css";
+import { Link } from "react-router-dom";
 
-// Component to handle Read More/Read Less functionality for long text.
-const ExpandableText = ({ text, maxLength = 150 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  if (text.length <= maxLength) {
-    return <span>{text}</span>;
-  }
-  return (
-    <span>
-      {isExpanded ? text : text.substring(0, maxLength) + "..."}
-      <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="read-more-btn"
-      >
-        {isExpanded ? "Read less" : "Read more"}
-      </button>
-    </span>
-  );
-};
-
-// Helper to render the label with special styling if needed.
-const renderLabel = (label) => {
-  if (["file description", "documents"].includes(label.trim().toLowerCase())) {
-    return <span className="file-description">{label}</span>;
-  }
-  return label;
-};
-const PartBData = () => {
-  // JSON object holding all Part B fields exactly as shown in the image.
-  // (Make sure to update or add any new fields here without changing the render logic)
-  const partBData = {
+export const partBData = {
     "1.1 - Curricular Planning and Implementation": {
       "1.1.1 - The Institution ensures effective curriculum delivery through a well planned and documented process":
         [
@@ -1971,6 +1943,36 @@ const PartBData = () => {
         ]
     },
   };
+// Component to handle Read More/Read Less functionality for long text.
+const ExpandableText = ({ text, maxLength = 150 }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  if (text.length <= maxLength) {
+    return <span>{text}</span>;
+  }
+  return (
+    <span>
+      {isExpanded ? text : text.substring(0, maxLength) + "..."}
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="read-more-btn"
+      >
+        {isExpanded ? "Read less" : "Read more"}
+      </button>
+    </span>
+  );
+};
+
+// Helper to render the label with special styling if needed.
+const renderLabel = (label) => {
+  if (["file description", "documents"].includes(label.trim().toLowerCase())) {
+    return <span className="file-description">{label}</span>;
+  }
+  return label;
+};
+const PartBData = () => {
+  // JSON object holding all Part B fields exactly as shown in the image.
+  // (Make sure to update or add any new fields here without changing the render logic)
+
 
   // Helper: if a field's value is "View File", render a link to the Upload File component.
   const renderFieldValue = (value, label) => {
@@ -2011,6 +2013,12 @@ const PartBData = () => {
 
   return (
     <>
+      <div style={{ textAlign: "center", margin: "1rem 2rem" }}>
+        <Link to="/auth/partb-progress" className="btn btn-primary">
+          View Part B Progress
+        </Link>
+      </div>
+
       <h1 className="head"> Part B</h1>
       <h1 className="head">CURRICULAR ASPECTS</h1>
       {Object.keys(partBData).map((sectionTitle, secIndex) => (
